@@ -2,10 +2,9 @@
 
 namespace Nollaversio\SQSJobless;
 
-use Aws\Sqs\SqsClient;
 use Illuminate\Queue\Jobs\SqsJob;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Queue\Job as JobContract;
+use Illuminate\Support\Str;
 
 class JoblessJob extends SqsJob implements JobContract
 {
@@ -14,7 +13,6 @@ class JoblessJob extends SqsJob implements JobContract
 	// from Amazon SQS so that it looks like valid Job object
     public function getRawBody()
     {
-
         $realBody = $this->job['Body'];
 
         $class = config('sqs-jobless.handler');
@@ -27,14 +25,12 @@ class JoblessJob extends SqsJob implements JobContract
                 // We pass real body in after decoding it
                 "command" => serialize(new $class($realBody))
 
-            ]
+            ],
+            "uuid" => Str::uuid(),
 
         ]);
 
         return $transformedBody;
 
     }
-
-
-
 }
