@@ -10,10 +10,10 @@
             "email": "jussi@nollaversio.fi"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": "~7.2",
         "illuminate/support": "5 - 8",
+        "illuminate/queue": "5 - 8",
         "aws/aws-sdk-php": "~3.0"
     },
     "autoload": {
